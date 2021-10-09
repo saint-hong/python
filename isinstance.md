@@ -1,8 +1,4 @@
-# 유용한 함수나 코드들 정리
-
-## ◎ 함수
-
-### isinstance
+# isinstance
 - 입력값이 조건의 타입과 일치하면 True, 불일치 하면 False 를 출력해준다.
 - isinstance(x, condition)
 ```
