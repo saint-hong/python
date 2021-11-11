@@ -56,6 +56,8 @@ for i in range(1, 17) :
 
 print("Q 의 부분집합의 갯수 : {}".format(2**len(Q)))
 ```
+
+- q1~q16 은 모두 Q의 부분집합이다. (True)
 ```
 =====<print>=====
 
