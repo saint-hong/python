@@ -57,6 +57,8 @@ for i in range(1, 17) :
 print("Q 의 부분집합의 갯수 : {}".format(2**len(Q)))
 ```
 ```
+=====<print>=====
+
 frozenset({'TH', 'HH', 'TT', 'HT'})
 **q1 = frozenset({'HH'})
    q1 <= Q : True
