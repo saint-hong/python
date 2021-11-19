@@ -52,7 +52,7 @@ def count_number_in_array(n, lst) :
         k += 1
 ```
 
-- docstirng 확인
+### docstirng 확인
 - ``shift + tap : 함수이름에 커서를 놓고 실행, 일반적으로 많이 사용하는 방법``
 - ``함수이름?`` : 함수이름 뒤에 ?를 붙이고 실행하면 docstring을 볼 수 있다.
 - ``함수이름??`` : 함수이름 뒤에 ??를 붙이고 실행하면 docstring과 함수의 코드 전체를 볼 수 있다.
