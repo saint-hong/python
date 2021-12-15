@@ -20,6 +20,8 @@ print("===hstack===")
 print(ab_hstack)
 print("shape : ", ab_hstack.shape)
 
+```
+```
 =====<print>=====
 
 a :  [1 2 3]
@@ -42,7 +44,8 @@ ab_hstack = np.hstack([a, b])
 print("===hstack===")
 print(ab_hstack)
 print("shape : ", ab_hstack.shape)
-
+```
+```
 =====<print>=====
 
 a :  [1 2 3]
@@ -52,6 +55,7 @@ b :  [4 5 6 7 8]
 [1 2 3 4 5 6 7 8]
 shape :  (8,)
 ```
+
 - 3X2 배열과 2X2 배열
 ```python
 aa = np.array([[1, 2, 3], [4, 5, 6]])
@@ -65,7 +69,8 @@ aabb_hstack = np.hstack([aa, bb])
 print(aabb_hstack)
 print("===hstack shape===")
 print(aabb_hstack.shape)
-
+```
+```
 =====<print>=====
 
 [[1 2 3]
@@ -91,7 +96,8 @@ ab_hstack = np.hstack([a, b])
 print("===hstack===")
 print(ab_hstack)
 print("shape : ", ab_hstack.shape)
-
+```
+```
 =====<print>=====
 
 a :  [[1 2]
@@ -138,8 +144,9 @@ aabb_vstack = np.vstack([aa, bb])
 print(aabb_vstack)
 print("===vstack shape===")
 print(aabb_vstack.shape)
-
-=====<python>====
+```
+```
+=====<print>====
 [[1 2 3]
  [4 5 6]]
 ------------
@@ -165,7 +172,8 @@ aabb_vstack = np.vstack([aa, bb])
 print(aabb_vstack)
 print("===vstack shape===")
 print(aabb_vstack.shape)
-
+```
+```
 =====<print>=====
 
 [1 2 3]
@@ -201,7 +209,8 @@ print("===column_stack shape===")
 print(aabb_col_stack.shape)
 print("===hstack===")
 print(np.hstack((aa, bb)))
-
+```
+```
 =====<print>=====
 
 [[1 2 3]
