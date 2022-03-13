@@ -5,7 +5,7 @@
 
 ## 사용방법
 - str "q" 와 int "1" 을 합하면 "q1" 이 되고, 타입은 str 이다. 
-```
+```python
 A = str("q") + str(1)
 print(A, type(A))
 
@@ -16,7 +16,7 @@ q1 <class 'str'>
 
 - q1 변수를 임의의 집합 데이터로 정의한다.
 - eval() 함수로 q와 1을 합하면 q1 이라는 변수가 호출 된다.
-```
+```python
 q1 = set([1,2,3,4])
 B = eval("q" + str(1))
 print(B, type(B))
@@ -29,7 +29,7 @@ print(B, type(B))
 - Q 라는 집합을 만들고 q1~q16 변수에 Q의 부분집합을 각각 정의한다.
 - 반복문안에 eval 함수를 넣고 각 변수가 Q의 부분집합인지 확인하도록 한다.
 - eval() 함수에 의해서 q와 숫자가 합해져 변수를 호출해 준다.
-```
+```python
 Q = frozenset(['HH', 'HT', 'TH', 'TT'])
 
 q1 = frozenset(['HH'])
@@ -58,7 +58,7 @@ print("Q 의 부분집합의 갯수 : {}".format(2**len(Q)))
 ```
 
 - q1~q16 은 모두 Q의 부분집합이다. (True)
-```
+```python
 =====<print>=====
 
 frozenset({'TH', 'HH', 'TT', 'HT'})
