@@ -2640,4 +2640,2294 @@ C:\Users\Public\Documents\ESTsoft\CreatorTemp/ipykernel_1232/3365798384.py in <m
 ValueError: too many values to unpack (expected 2)
 ```
 
-# 리스트와 반복문을 사용하여 계산하기
+### 리스트와 반복문을 사용하여 계산하기
+- 과목별 점수를 담은 리스트에서 평균값 구하기
+
+```python
+a = [90, 85, 95, 80, 90, 100, 85, 75, 85, 80]
+
+sum = 0
+for i in range(len(a)) :
+    sum = sum + a[i]
+average = sum / len(a)
+average
+
+>>>
+
+86.5
+```
+
+- 두 학생의 과목별 점수 리스트에서 과목별 점수의 합 계산
+
+```python
+s = []
+a1 = [90, 85, 95, 80, 75, 90, 100, 65, 55, 85]
+a2 = [40, 50, 60, 75, 85, 95, 90, 65, 75, 100]
+
+for i in range(len(a1)) :
+    s.append(a1[i] + a2[i])
+s
+
+>>>
+
+[130, 135, 155, 155, 160, 185, 190, 130, 130, 185]
+```
+
+### 리스트의 원소를 직접 반복문에서 사용하기
+- 반복문에 리스트의 원소를 직접 사용할 수 있다.
+- 반복문에서 사용한 range 는 리스트 만드는 명령어와 같다.
+
+```python
+for i in range(5) :
+    print(i)
+
+>>>
+
+0
+1
+2
+3
+4
+```
+
+```python
+for i in [0, 1, 2, 3, 4] :
+    print(i)
+
+>>>
+
+0
+1
+2
+3
+4
+```
+
+```python
+a = [90, 85, 95, 80, 90, 100, 85, 75, 85, 80]
+
+sum = 0
+for ai in a :
+    sum = sum + ai
+avg = sum / len(a)
+avg
+
+>>>
+
+86.5
+```
+
+### `enumerate 함수`
+- enumerate : 리스트의 원소를 반복하여 꺼내면서 동시에 인덱스 값도 생성해준다.
+- 반복문에서 append 메서드를 사용하면 속도가 느려진다. 이럴때는 미리 저장공간을 만들고 해당 위치에 계산 결과를 갱신해야 한다.
+
+```python
+for i, e in enumerate(["a", "b", "c"]) :
+    print("i = %d, e = %s" % (i, e))
+
+>>>
+
+i = 0, e = a
+i = 1, e = b
+i = 2, e = c
+```
+
+- append 대신에 새로운 리스트 변수를 만들고 해당 인덱스에 값을 갱신한다.
+    - 비어있는 리스트 s를 만들고 여기에 값을 갱신한다.
+```python
+s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+a1 = [90, 85, 95, 80, 75, 90, 100, 65, 55, 85]
+a2 = [40, 50, 60, 75, 85, 95, 90, 65, 75, 100]
+
+for i, (a1i, a2i) in enumerate(zip(a1, a2)) :
+    s[i] = a1i + a2i
+
+s
+
+>>>
+
+[130, 135, 155, 155, 160, 185, 190, 130, 130, 185]
+```
+
+### 리스트의 리스트
+- 리스트 안에 리스트가 들어있는 구조
+- 학생이 5명, 각 학생이 10번의 시험에 대한 성적을 갖는다면, 리스트의 리스트로 시험성적을 나타낼 수 있다.
+- 중첩 반복문을 사용하여 이중 리스트에서 데이터를 선택할 수 있다.
+    - 상위 반복문의 카운터 변수를 하위 반복문의 반복횟수에 넣어 사용할 수 있다.
+
+```python
+X = [[85, 60, 50, 76, 35, 84, 98, 99, 100, 55],
+    [45, 60, 75, 43, 56, 78, 73, 35, 68, 90],
+    [30, 56, 48, 89, 76, 88, 53, 58, 14, 67],
+    [89, 67, 68, 87, 72, 62, 56, 79, 90, 68],
+    [68, 90, 93, 92, 75, 38, 79, 53, 89, 22]]
+
+# 전체 평균 점수
+# num은 시험의 전체 횟수, sum은 모든 시험 점수의 총합
+
+sum = 0
+num = 0
+for i in range(len(X)) : 
+    for j in range(len(X[i])) : 
+        num = num + 1
+        sum = sum + X[i][j]
+    print(num, sum)
+    
+sum / num    
+
+>>>
+
+10 742
+20 1365
+30 1944
+40 2682
+50 3381
+
+67.62
+```
+### 연습문제
+- 학생이 5개 과목 성적
+    - X = 4, 3, 2, 3, 4
+- 5개 과목 이수학점
+    - W = 3, 3, 1, 2, 2
+- 이 떄 평균 평점(GPA)은 성적의 단순 평균이 아니라 이수학점을 가중치로 써서 계산한다.
+    - 성적과 이수학점을 곱한 값의 총합 즉, 가중합 / 이수학점의 총합
+- i번째 과목의 성적을 Xi라고 하고, i번째 과목의 이수학점을 Wi라고 할때 가중평균.
+    - W1X1 + W2X2 + W3X3 + W4X4 + W5X5 / W1 + W2 + W3 + W4 + W5
+- 이 학생의 평균평점을 구하는 코드를 작성한다.
+
+#### 코드 풀이
+- 중첩 반복문을 사용
+
+```
+1. score 변수에서 0번쨰 리스트의 원소를 꺼내 과목 성적 변수X에 저장
+2. score 변수에서 1번쨰 리스트의 원소를 꺼내 이수 학점 변수W에 저장
+   - 이때 이수학점의 총합을 W_sum에 저장
+3. X와 W의 데이터를 순서대로 곱하고 더하여 가중한 변수 XW에 저장
+4. 최종 평균평점 : XW / W_sum
+```
+
+```python
+score = [[4, 3, 2, 3, 4], [3, 3, 1, 2, 2]]
+
+X = [0] * len(score[0])
+W = [0] * len(score[1])
+W_sum = 0
+
+for i in range(len(score)) :   # score의 원소의 갯수 2개 : 0, 1
+    for j in range(len(score[i])) :   # 각 원소의 길이 5개 : 0, 1, 2, 3, 4
+        if i == 0 :
+            X[j] = score[i][j]
+        elif i == 1 :
+            W[j] = score[i][j]
+            W_sum = W_sum + score[i][j]
+XW = 0
+for h in range(len(score[0])) :
+    XW = XW + (X[h] * W[h])
+
+XW / W_sum
+
+>>>
+
+3.3636363636363638
+```
+
+#### 다시 간단하게 코딩
+- 반복문을 하나만 사용
+
+```python
+score = [[4, 3, 2, 3, 4], [3, 3, 1, 2, 2]]
+XW = 0
+W = 0
+for i in range(len(score[0])) :
+    XW = XW + (score[0][i] * score[1][i])
+    W = W + score[1][i]
+
+XW / W
+
+>>>
+
+3.3636363636363638
+```
+### zip 함수
+- zip : 두 개의 리스트를 합쳐서 각 리스트 원소의 쌍을 원소로 가지는 하나의 리스트를 만들어준다.
+- 파이썬에서는 list 명령을 함께 사용해주어야 리스트 기능을 한다.
+- 튜플(tuple) 타입으로 원소 쌍이 저장된다. 튜플은 리스트와 사용법이 거의 동일하다.
+
+```python
+s = []
+a1 = [80, 90, 88, 76, 54, 32, 38, 45, 60, 99]
+a2 = [76, 85, 55, 43, 66, 78, 90, 12, 34, 43]
+
+# zip함수로 합한 리스트의 값을 반복문에서 바로 꺼내어 사용
+
+for a1i, a2i in zip(a1, a2) :
+    s.append(a1i + a2i)
+
+s
+
+>>>
+
+[156, 175, 143, 119, 120, 110, 128, 57, 94, 142]
+```
+
+#### zip 함수에서 리스트안에 인수를 하나만 넣고 * 기호를 붙이면 쌍을 바꿔준다.
+
+```python
+a12 = list(zip(a1, a2))
+a12
+
+>>>
+
+[(80, 76),
+ (90, 85),
+ (88, 55),
+ (76, 43),
+ (54, 66),
+ (32, 78),
+ (38, 90),
+ (45, 12),
+ (60, 34),
+ (99, 43)]
+```
+
+- zip 해서 만든 변수를 다시 zip을 하되 `*`을 붙여주면 쌍의 모양이 바뀐다.
+
+```python
+a21 = list(zip(*a12))
+a21
+
+>>>
+
+[(80, 90, 88, 76, 54, 32, 38, 45, 60, 99),
+ (76, 85, 55, 43, 66, 78, 90, 12, 34, 43)]
+```
+
+### 연습문제
+- 아래 변수에서 복수할당과 zip 명령을 사용하여 이 변수에서 학생 이름만 있는 변수를 만들어라.
+
+```
+x = [
+    ["길동", 90],
+    ["철수", 80],
+    ["영수", 70],
+    ["방자", 60]
+]
+```
+
+#### 코딩
+- 복수할당한 후 각 변수를 zip을 합쳐주면 이름만 모을 수 있다.
+
+```python
+n1, n2, n3, n4 = x
+n1, n2, n3, n4
+
+>>>
+
+(['길동', 90], ['철수', 80], ['영수', 70], ['방자', 60])
+
+name = list(zip(n1, n2, n3, n4))[0]
+name
+
+>>>
+
+('길동', '철수', '영수', '방자')
+```
+
+- x 변수를 `*`을 붙여 zip 해주면 이름과 점수를 따로 분리할 수 있다.
+
+```python
+list(zip(*x))
+
+>>>
+
+[('길동', '철수', '영수', '방자'), (90, 80, 70, 60)]
+```
+
+# 파이썬에서 딕셔너리 자료형 다루기
+
+### 자료의 개수
+- len : 딕셔너리 자료형의 자료의 갯수를 구해준다.
+
+```python
+x = {"a" : 10, "b" : 20}
+x
+
+>>>
+
+{'a': 10, 'b': 20}
+```
+
+```python
+len(x)
+
+>>>
+
+2
+```
+
+### 자료의 갱신, 추가, 삭제
+- 기존 자료 갱신 : 딕셔너리 자료형을 인덱싱한 후 결과에 바꾸고자 하는 값을 대입한다.
+
+```python
+x["a"] = 100
+x
+
+>>>
+
+{'a': 100, 'b': 20}
+```
+
+- 새로운 자료 추가 : 새로운 키를 인덱싱에 넣고 결과에 새로운 값을 저장한다.
+
+```python
+x["c"] = 50
+x
+
+>>>
+
+{'a': 100, 'b': 20, 'c': 50}
+```
+
+- 자료 삭제 : del 명령 사용
+
+```python
+del x["b"]
+x
+
+>>>
+
+{'a': 100, 'c': 50}
+```
+
+### 키 확인
+- in : 특정한 키가 있는지 확인하는 명령어, True, False를 반환한다.
+
+```python
+"a" in x
+
+>>>
+
+True
+
+"f" in x
+
+>>>
+
+False
+```
+
+### 딕셔너리 자료형의 반복
+- 딕셔너리 자료형을 for 반복문에 넣어서 사용할 경우 내부적으로 자료의 순서를 보장하지 않는다.
+- for 문에 딕셔너리 자료형을 사용하는 방법
+    - 키만 반복하는 경우 : for i in x, for i in x.keys()
+    - 값만 반복하는 경우 : for i in x.values()
+    - 키와 값 쌍을 반복하는 경우 : for k, v in x.items() :
+
+#### key 반환
+
+```python
+for k in x :
+    print(k)
+
+>>>
+
+a
+c
+
+x.keys()
+
+>>>
+
+dict_keys(['a', 'c'])
+
+for k in x.keys() :
+    print(k)
+
+>>>
+
+a
+c
+```
+
+#### vlaue 반환
+
+```python
+x.values()
+
+>>>
+
+dict_values([100, 50])
+
+for v in x.values() :
+    print(v)
+
+>>>
+
+100
+50
+```
+
+#### key, value 반환
+
+```python
+for k, v in x.items() : 
+    print("key [%s] => vlaue [%d]" % (k, v))
+
+>>>
+
+key [a] => vlaue [100]
+key [c] => vlaue [50]
+```
+
+### 연습문제
+- for 문을 사용하여 딕셔너리 자료에서 자료를 특정한 양식으로 출력하시오.
+
+```
+data = {
+    "철수" : 98,
+    "영희" : 80,
+    "순이" : 100,
+    "돌이" : 70
+}
+```
+#### 코딩
+
+```python
+sum = 0
+for k, v in data.items() :
+    print("{}    {}".format(k, v))
+    sum = sum + v
+    if k == "돌이" :
+        print("=" * 13)
+        print("평균    {}".format(sum // len(data)))
+
+>>>
+
+철수    98
+영희    80
+순이    100
+돌이    70
+=============
+평균    87
+```
+
+- f문자열의 형식지정 문자열 사용하여 출력
+
+```python
+score_sum = 0
+for k, v in data.items() :
+    print(f"{k:<5}", f"{v:>6}")
+    score_sum = score_sum + v
+    if k == "돌이" :
+        m = "평균"
+        mean = score_sum // len(data)
+        print("=" * 16)
+        print(f"{m:<5}", f"{mean:>6}")
+
+>>>
+
+철수        98
+영희        80
+순이       100
+돌이        70
+================
+평균        87
+```
+
+# 파이썬 객체지향 프로그래밍
+
+### 객체
+- 프로그램이 어떤 작업을 수행하기 위해 필요한 요소
+    - 데이터 : 변수에 저장해서 사용
+    - 데이터를 조작하는 행위 : 함수로 구성해서 실행
+- **객체 object, instance** : 서로 연관된 데이터와 그 데이터를 조작하기 위한 함수를 하나의 집합에 모아 놓은 것
+- **멤버 member, 속성 attribute** : 객체의 원소가 되는 변수나 함수
+- **메서드 method** : 객체의 속성인 함수
+
+#### 사각형의 면적을 구하는 프로그램에서 필요한 변수와 함수
+- 가로 길이, 세로 길이를 넣을 변수
+- 두 길이를 곱해서 면적을 구하는 함수
+
+```python
+# 객체지향을 사용하지 않고 파이썬으로 구현하면 다음과 같다.
+# 여기에서 사각형의 가로길이 h, 세로길이 v, 면적을 구하는 함수 area는 제각기 떨어져 있다.
+
+
+h = 10
+v = 20
+
+def area(h, v) :
+    return h * v
+
+a = area(h, v)
+print(a)
+
+>>>
+
+200
+```
+
+### 객체지향 프로그래밍에서는 이 세가지를 하나의 객체 object로 묶을 수 있다.
+- r : 객체
+    - h, v : 변수
+    - area() : 함수
+- 객체 r에 변수와 함수가 하나로 합쳐진다.
+- 객체 r에서 속성/멤버 또는 매서드를 꺼내려면 이름 뒤에 점을 붙이고 속성 이름을 입력한다.
+    - 속성, 멤버 : 객체의 원소가 되는 변수 또는 함수를 일컫는 개념
+    - 매서드 : 객체의 원소가 되는 함수
+
+```python
+class Rectangle(object) :
+
+    def __init__(self, h, v) :
+        self.h = h
+        self.v = v
+
+    def area(self) :
+        return self.h * self.v
+```
+
+- 클래스를 r에 저장하여 객체를 만들고, r 객체의 멤버인 area() 함수를 호출한다. 면적이 계산된다.
+
+```python
+r = Rectangle(10, 20)
+a = r.area()
+print(a)
+
+>>>
+
+200
+```
+
+- r 객체의 h 속성값 호출
+
+```python
+r.h
+
+>>>
+
+10
+```
+
+- r 객체의 v 속성값 호출
+
+```python
+r.v
+
+>>>
+
+20
+```
+
+### `클래스`
+- 객체지향 프로그래밍에서 객체를 만들려면 항상 클래스(class)라는 것을 만든 후에 클래스를 이용하여 객체를 만들어야 한다.
+- 객체와 클래스의 관계는 붕어빵과 붕어빵틀의 관계와 같다.
+- 길이에 해당하는 속성 h와 v를 갖는 클래스를 만들어 놓으면 이 속성을 갖는 실제 사각형을 얼마든지 만들 수 있다.
+
+```python
+a = Rectangle(1, 1)
+b = Rectangle(2, 1)
+c = Rectangle(4, 2)
+d = Rectangle(6, 3)
+e = Rectangle(8, 5)
+
+# 객체의 area() 멤버 호출 : 면적 계산
+print(a.area())
+print(b.area())
+print(c.area())
+print(d.area())
+print(e.area())
+
+>>>
+
+1
+2
+8
+18
+40
+```
+
+### 생성자
+
+```
+class 클래스이름(object) :
+    
+    def __init__(self, 속성값1, 속성값2, 속성값3) :
+        self.속성이름1 = 속성값1
+        self.속성이름2 = 속성값2
+        self.속성이름3 = 속성값3
+```
+
+- 생성자 constructor : 클래스 안에 `__init__` 함수, 클래스의 정의에서 가장 중요한 함수
+- 속성값 인수는 입력하지 않아도 된다.
+- 객체를 생성할 때는 클래스이름을 함수 처럼 호출해야 한다. 이때 `__init__` 함수가 호출 된다. 
+- 생성자 함수 내부에서는 생성자를 호출할 때 넣은 입력변수=인자의 값을 속성값으로 저장한다. 
+
+### 연습문제
+- 삼각형의 넓이를 계산하기 위한 클래스를 만든다.
+- 속성 : 밑변의 길이 b, 높이 h 변수
+- 매서드 : 삼각형의 넓이 계산하는 area() 함수
+
+```python
+class Triangle(object) :
+
+    def __init__(self, b, h) :
+        self.b = b
+        self.h = h
+
+    def area(self) :
+        return 1/2 *(self.b * self.h)
+```
+
+- Triangle() 클래스를 o 객체로 만든다. 
+
+```python
+o = Triangle(2, 5)
+o
+
+>>>
+
+<__main__.Triangle at 0x1f18c0c68c8>
+```
+
+- 객체의 멤버변수(속성값), 매서드 확인
+
+```python
+o.b
+
+>>>
+
+2
+
+o.h
+
+>>>
+
+5
+
+o.area()
+
+>>>
+
+5.0
+```
+
+- 여러개의 객체 만들기
+
+```python
+oo = Triangle(10, 8)
+ooo = Triangle(3, 6)
+
+print(oo.area())
+print(ooo.area())
+
+>>>
+
+40.0
+9.0
+```
+
+### 연습문제
+- 사각 기둥의 부피를 계산하기 위한 클래스를 만든다.
+- 속성
+    - 변수 : 밑면의 가로길이 a, 밑면의 세로길이 b, 높이 h
+    - 메서드 : 부피 계산하는 volume()
+    - 메서드 : 겉넓이를 계산하는 surface()
+
+```python
+class Squarpillar(object) :
+
+    def __init__(self, a, b, h) :
+        self.a = a
+        self.b = b
+        self.h = h
+
+    def volume(self) :
+        return self.a * self.b * self.h
+
+    def surface(self) :
+        return (2 * (self.a * self.b)) + (2 * (self.a * self.h)) + (2 * (self.h * self.b))
+```
+
+- 클래스를 calc 객체에 저장하고, 각각의 멤버변수(속성값), 매서드 호출
+
+```python
+calc = Squarpillar(2, 4, 5)
+calc.a
+
+>>>
+
+2
+
+calc.b
+
+>>>
+
+4
+
+calc.h
+
+>>>
+
+5
+
+calc.volume()
+
+>>>
+
+40
+
+calc.surface()
+
+>>>
+
+76
+```
+
+### 게임 캐릭터와 객체 
+- 게임 캐릭터 클래스 만들기
+    - 플레이어의 캐릭터
+    - 속성 : 캐릭터의 능력치, 경험치 등, 변수
+    - 메서드 : 캐릭터를 움직이는 방법, 이동, 공격 등, 함수
+
+```python
+class Character(object) :
+
+    def __init__(self) :
+        self.life = 1000
+
+    def attacked(self) :
+        self.life -= 10
+        print("공격받음! 생명력 = ", self.life)
+```
+
+- Character() 클래스를 각각의 객체로 만들기
+
+```python
+a = Character()
+b = Character()
+c = Character()
+
+# 객체의 life 속성값 확인
+a.life, b.life, c.life
+
+>>>
+
+(1000, 1000, 1000)
+
+# 객체의 attacked() 매서드 호출
+a.attacked()
+
+>>>
+
+공격받음! 생명력 =  990
+```
+
+### `클래스 상속`
+- **클래스 상속 class inheritance** : 이미 만들어진 클래스 코드를 재사용하여 다른 클래스를 생성하는 방법. 상속 과정에서 공통으로 사용하는 속성이나 메서드는 두 번 반복해서 코딩할 필요가 없다.
+- **자식 클래스 child class** : 상속을 받는 클래스
+- **부모 클래스 parent class** : 상속의 대상이 되는 클래스
+
+```
+class 자식클래스이름(부모클래스이름) :
+
+    def __init__(self, 속성값1, 속성값2) :
+        super(자식클래스이름, self).__init__()
+        자식 클래스의 초기화 코드
+```
+
+- `super(자식클래스이름, self).__init__()` : 부모 클래스의 초기화 생성자를 호출하는 부분
+- Character 부모 클래스에서 초기화 생성자를 호출하면 life 속성값을 초기화한다. 따라서 자식 클래스에서는 이 속성값을 초기화할 필요가 없다.
+
+```python
+# 부모 클래스 : Character -> 자식 클래스 : Warrior, Wizard
+# 부모 클래스의 속성인 life와 attacked() 메서드를 갖게 된다.
+
+class Warrior(Character) :
+
+    def __init__(self) :
+        # 부모 클래스의 초기화 속성값 life를 호출
+
+        super(Warrior, self).__init__()
+        self.strength = 15
+        self.intelligence = 5
+
+class Wizard(Character) :
+
+    def __init__(self) :
+        super(Wizard, self).__init__()
+        self.strength = 5
+        self.intelligence = 15
+```
+
+- 객체 생성
+- 객체의 life 속성값(멤버변수)은 부모클래스에서 상속받은 값이다.
+
+```python
+a = Warrior()
+b = Wizard()
+
+a.life, b.life
+
+>>>
+
+(1000, 1000)
+```
+
+- 각 객체의 속성값 호출
+```python
+a.strength, b.strength
+
+>>>
+
+(15, 5)
+
+a.intelligence, b.intelligence
+
+>>>
+
+(5, 15)
+```
+
+- 부모 클래스에 상속받은 attacked() 매서드 호출
+
+```python
+a.attacked()
+
+>>>
+
+공격받음! 생명력 =  990
+
+b.attacked()
+
+>>>
+
+공격받음! 생명력 =  990
+```
+
+### 매서드 오버라이딩
+- **매서드 오버라이딩 method overriding** : 여러 클래스에 걸쳐서 같은 이름의 메서드를 만드는 것
+- 부모 클래스, 전사 클래스, 마법사 클래스에 공통으로 attack 메서드가 있다. 각각하는 일이 다를 때는 메서드 오버라이딩으로 메서드를 클래스별로 구현할 수 있다. 
+- 즉 같은 멤버함수를 각 클래스 별로 따로 만들고 속성값을 다르게 하는 것
+
+```python
+class Character(object) :
+
+    
+    def __init__(self) :
+        self.life = 1000
+        self.strength = 10
+        self.intelligence = 10
+
+    def attacked(self) : # 매서드
+        self.life -= 50
+        print("공격받음! 생명력 = ", self.life)
+
+    def attack(self) : # 매서드
+        print("공격하라!")
+
+# Character 클래스를 상속받는다.
+# 상속 받을 때 attack() 매서드는 매서드 오버라이딩으로 자식 클래스 별로 다시 만들어준다.
+class Warrior(Character) :
+
+    
+    def __init__(self) :
+        super(Warrior, self).__init__()
+        self.strength = 15
+        self.intelligence = 5
+
+    def attack(self) : # 매서드
+        print("육탄공격!")
+
+
+class Wizard(Character) : 
+    
+    
+    def __init__(self) : 
+        super(Wizard, self).__init__()
+        self.strength = 5
+        self.intelligence = 15
+        
+    def attack(self) : # 매서드
+        print("마법공격!")	
+```
+
+- 객체 생성후 각 객체별 속성값 호출
+
+```python
+a = Character()
+b = Warrior()
+c = Wizard()
+
+a.life, b.life, c.life
+
+>>>
+
+(1000, 1000, 1000)
+
+a.strength, b.strength, c.strength
+
+>>>
+
+(10, 15, 5)
+
+a.intelligence, b.intelligence, c.intelligence
+
+>>>
+
+(10, 5, 15)
+
+# attacked() 매서드 호출
+a.attacked()
+
+>>>
+
+공격받음! 생명력 =  950
+
+b.attacked()
+
+>>>
+
+공격받음! 생명력 =  950
+
+c.attacked()
+
+>>>
+
+공격받음! 생명력 =  950
+
+# 매서드 오버라이딩으로 만든 attack() 매서드 호출
+a.attack()
+
+>>>
+
+공격하라!
+
+b.attack()
+
+>>>
+
+육탄공격!
+
+c.attack()
+
+>>>
+
+마법공격!
+```
+
+### 연습문제
+- 게임 캐릭터 코드에서 attacked 메서드도 오버라이딩을 하여 전사와 마법사가 공격을 받을때 life 속성값이 다르게 감소하도록 한다. 
+
+```python
+class Character(object) :
+
+
+    def __init__(self) :
+        self.life = 1000
+
+    def attacked(self) :
+        self.life -= 50
+        print("공격받음! 생명력 = ", self.life)
+
+    def attack(self) :
+        print("공격!")
+
+
+class Warrior(Character) :
+
+    def __init__(self) :
+        super(Warrior, self).__init__()
+
+    def attacked(self) :
+        self.life -= 100
+        print("워리어 공격받음! 생명력 = ", self.life)
+
+    def attack(self) :
+        print("워리어 육탄공격!")
+
+
+class Wizard(Character) : 
+    
+    def __init__(self) : 
+        super(Wizard, self).__init__()
+        
+    def attacked(self) : 
+        self.life -= 200
+        print("마법사 공격받음! 생명력 = ", self.life)
+        
+    def attack(self) : 
+        print("마법사 마법공격!")
+```
+
+- 객체 생성 후 attacked() 매서드 호출
+    - life 속성값의 감소가 객체마다 다르다.
+
+```python
+a = Character()
+b = Warrior()
+c = Wizard()
+
+a.attacked()
+
+>>>
+
+공격받음! 생명력 =  950
+
+b.attacked()
+
+>>>
+
+워리어 공격받음! 생명력 =  900
+
+c.attacked()
+
+>>>
+
+마법사 공격받음! 생명력 =  800
+```
+
+### 연습문제
+- 다음과 같이 자동차를 나타내는 Car 클래스를 구현한다.
+    - 속성 : 최고속도 max_speed, 현재 속도 speed
+    - max_speed = 160, speed = 0
+    - 메서드 : speed_up을 호출하면 speed 20 증가, speed_down 호출하면 speed 20 감소
+    - speed는 max_speed를 넘을 수 없다. 0 미만 감소할 수 없다.
+    - 메서드 호출시 속도정보 출력, 명시적인 반환값을 가지지 않는다.
+
+```python
+# if 조건문을 사용하여 속성값의 범위를 제한 해준다.
+
+class Car(object) :
+
+    def __init__(self) :
+        self.max_speed = 160
+        self.speed = 0
+
+    def speed_up(self) :
+        self.speed += 20
+        if self.speed > self.max_speed :
+            self.speed = 160
+            print("초과속도 입니다.")
+        else :
+            print("현재속도 = ", self.speed)
+
+    def speed_down(self) :
+        self.speed -= 20
+        if self.speed < 0 :
+            self.speed = 0
+            print("정지상태 입니다.")
+        else :
+            print("현재속도 = ", self.speed)
+```
+
+- 객체 생성 후 속성값 호출
+
+```python
+car = Car()
+
+car.max_speed
+
+>>>
+
+160
+
+car.speed
+
+>>>
+
+0
+```
+
+- car 객체의 speed_up() 매서드를 반복 호출 : max_speed=160 이상이 되면 초과속도 가 출력된다.
+
+```python
+for i in range(10) :
+    car.speed_up()
+
+>>>
+
+현재속도 =  20
+현재속도 =  40
+현재속도 =  60
+현재속도 =  80
+현재속도 =  100
+현재속도 =  120
+현재속도 =  140
+현재속도 =  160
+초과속도 입니다.
+초과속도 입니다.
+```
+
+```python
+for i in range(10) :
+    car.speed_down()
+
+>>>
+
+현재속도 =  140
+현재속도 =  120
+현재속도 =  100
+현재속도 =  80
+현재속도 =  60
+현재속도 =  40
+현재속도 =  20
+현재속도 =  0
+정지상태 입니다.
+정지상태 입니다.
+```
+
+### 연습문제
+- Car 클래스를 기반으로 SportCar와 Truck이라는 두개의 자식 클래스를 구현한다.
+- SportCar 클래스
+    - max_speed 속성 = 200
+    - speed_up, speed_down 매서드 호출시 45 증가, 감소
+- Truck 클래스
+    - max_speed 속성 = 100
+    - speed_up, speed_down 매서드 호출시 15 증가, 감소
+
+```python
+# Car 클래스를 상속받는다.
+# 매서드 오버라이딩으로 상속받은 매서드를 재구성한다.
+class SportCar(Car) :
+
+
+    def __init__(self) :
+        super(SportCar, self).__init__()
+        self.max_speed = 200
+
+    def speed_up(self) :
+        self.speed += 45
+        if self.speed > self.max_speed :
+            self.speed = self.max_speed
+            print("초과속도 속도를 줄이세요. speed = ", self.speed)
+        else :
+            print("현재속도 speed = ", self.speed)
+
+    def speed_down(self) :
+        self.speed -= 45
+        if self.speed < 0 :
+            self.speed = 0
+            print("정지상태 입니다. speed = ", self.speed)
+        else :
+            print("현재속도 speed = ", self.speed)
+
+
+class Truck(Car) : 
+
+
+    def __init__(self) : 
+        super(Truck, self).__init__()
+        self.max_speed = 100
+        
+    def speed_up(self) : 
+        self.speed += 15
+        if self.speed > self.max_speed : 
+            self.speed = self.max_speed
+            print("초과속도 속도를 줄이세요. speed = ", self.speed)
+        else : 
+            print("현재속도 speed = ", self.speed)
+        
+    def speed_down(self) : 
+        self.speed -= 15
+        if self.speed < 0 : 
+            self.speed = 0
+            print("정지상태 입니다. speed = ", self.speed)
+        else : 
+            print("현재속도 speed = ", self.speed)	    
+```
+
+- 객체 생성
+
+```python
+sportcar = SportCar()
+truck = Truck()
+```
+
+- sportcar 객체의 속성값과 매서드 호출
+
+```python
+sportcar.max_speed
+
+>>>
+
+200
+
+sportcar.speed
+
+>>>
+
+0
+
+# speed_up() 매서드를 반복 호출 : 속도 증가
+for i in range(5) :
+    sportcar.speed_up()
+
+>>>
+
+현재속도 speed =  45
+현재속도 speed =  90
+현재속도 speed =  135
+현재속도 speed =  180
+초과속도 속도를 줄이세요. speed =  200
+
+# speed_down() 매서드를 반복 호출 : 속도 감소
+for i in range(10) :
+    sportcar.speed_down()
+
+>>>
+
+현재속도 speed =  155
+현재속도 speed =  110
+현재속도 speed =  65
+현재속도 speed =  20
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+```
+
+- truck 객체의 속성값과 매서드 호출
+
+```python
+truck.max_speed
+
+>>>
+
+100
+
+truck.speed
+
+>>>
+
+0
+
+for i in range(10) :
+    truck.speed_up()
+
+>>>
+
+현재속도 speed =  15
+현재속도 speed =  30
+현재속도 speed =  45
+현재속도 speed =  60
+현재속도 speed =  75
+현재속도 speed =  90
+초과속도 속도를 줄이세요. speed =  100
+초과속도 속도를 줄이세요. speed =  100
+초과속도 속도를 줄이세요. speed =  100
+초과속도 속도를 줄이세요. speed =  100
+
+for j in range(10) :
+    truck.speed_down()
+
+>>>
+
+현재속도 speed =  85
+현재속도 speed =  70
+현재속도 speed =  55
+현재속도 speed =  40
+현재속도 speed =  25
+현재속도 speed =  10
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+정지상태 입니다. speed =  0
+```
+
+### 특수 메서드
+- 스페셜 메서드 special methods : 메서드 이름 앞뒤에 밑줄underscore 2개 붙어있는 메서드
+- `__repr__` representation : 변수는 `__repr__` 이라는 메서드를 가지고 있다. 변수를 호출하면 이 메서드가 호출된다.
+    - 기본적으로 클래스 이름과 변수가 위치하고 있는 메모리 주소를 <> 안에 써서 반환해준다.
+    - 이것을 수정하면 클래스 객체를 호출할 때 출력되는 내용을 바꿀 수 있다.
+    - 객체만 입력해도 객체의 정보를 출력할 수 있다.
+- `__str__` : 변수를 str에 넣으면 문자열로 변환해주는 메서드
+    - str(객체명) : 문자열 타입으로 반환해준다.
+    - 이것을 수정하면 str() 변환시 출력되는 내용을 바꿀 수 있다.
+- `__getitem__` : 이 메서드를 정의하면 마치 리스트나 사전처럼 [] 기호를 사용한 인덱싱을 할 수 있다.
+    - 이것을 수정하면 a["입력값"] 이러한 형태로 사용하여 특정한 알고리즘을 실행할 수 있다. 
+
+- 클래스 생성
+
+```python
+class Complex(object) :
+
+    def __init__(self, realpart, imagpart) :
+        self.r = realpart
+        self.i = imagpart
+```
+
+- 객체 생성
+
+```python
+c = Complex(1, 2)
+c
+
+>>>
+
+<__main__.Complex at 0x2571baca448>
+```
+
+- 객체의 str 매서드 확인
+
+```python
+str(c)
+
+>>>
+
+'<__main__.Complex object at 0x000002571BACA448>'
+```
+
+#### repr 메서드와 str 메서드를 새로 정의하여 오버라이딩 한다.
+- 자식 클래스 생성
+- Complex 부모 클래스 상속
+- 스페셜 매서드들의 출력 값을 변경한다. 
+    - repr 매서드는 객체를 호출할 때 반환되는 내용을 저장하는 매서드이다.
+    - str 매서드는 str(객체)를 호출할 때 반환되는 내용을 저장하는 매서드이다.
+
+```python
+class Complex2(Complex) :
+    
+    # repr 매서드의 반환 내용을 변경
+    def __repr__(self) :
+        return "Complex : real = %f img = %f" % (self.r, self.i)
+    
+    # str 매서드의 반환 내용을 변경
+    def __str__(self) :
+        return "[for str] " + self.__repr__()
+```
+
+- 객체 생성
+
+```python
+c2 = Complex2(1, 1)
+c2
+
+>>>
+
+Complex : real = 1.000000 img = 1.000000
+
+str(c2)
+
+>>>
+
+'[for str] Complex : real = 1.000000 img = 1.000000'
+```
+
+#### getitem 스페셜 매서드 변경
+- 새로운 자식 클래스 생성
+    - Complex2 클래스를 상속 받는다. 스페셜 매서드가 수정된 클래스이다.
+- getitem 매서드의 속성값을 변경한다. 
+- 객체를 호출할 때 특정한 값을 인덱싱하면 특정한 값을 반환해준다. 객체의 아이템 같은 개념.
+
+```python
+class Complex3(Complex2) :
+
+    def __getitem__(self, key) :
+        if key == "r" :
+            return self.r
+        if key == "i" :
+            return self.i
+```
+
+- 객체 생성
+
+```python
+c3 = Complex3(1, 2)
+
+>>>
+
+Complex : real = 1.000000 img = 2.000000
+```
+
+- getitem 매서드 호출
+
+```python
+c3["i"]
+
+>>>
+
+2
+
+c3["r"]
+
+>>>
+
+1
+
+c3.__getitem__("r")
+
+>>>
+
+1
+
+c3.__getitem__("i")
+
+>>>
+
+2
+```
+
+### 연습문제
+- 학생의 학번, 이름, 수학 성적, 영어 성적을 저장할 수 있는 클래스를 만들고 평균 성적을 출력하는 메서드를 추가한다.
+- 주피터 노트북에서 이 클래스 객체의 이름을 입력하면 바로 이름과 학번이 나와야한다.
+- str 명령을 수행하면 이름을 반환한다.
+- 수학과 영어 성적을 읽을 수 있어야 한다.
+    - obj["math"], obj["english"]
+
+```python
+class StudentInfo(object) :
+
+
+    def __init__(self, name, number, math, english) :
+        self.number = number
+        self.name = name
+        self.math = math
+        self.english = english
+
+    def mean(self) :
+        return (self.math + self.english) / 2
+
+    def __repr__(self) :
+        return "name : %s, number : %d" % (self.name, self.number)
+
+    def __str__(self) :
+        return "name : %s" % (self.name)
+
+    def __getitem__(self, key) :
+        if key == "math" :
+            return self.math
+        if key == "english" :
+            return self.english
+```
+
+- 객체 생성
+    - repr 값이 반환 된다 : name, number 속성값을 반환한다.
+
+```python
+s_info = StudentInfo("hong", 1234, 90, 100)
+s_info
+
+>>>
+
+name : hong, number : 1234
+```
+
+- mean() 매서드 호출
+    - math와 english 속성값의 점수 평균계산
+
+```pyhon
+s_info.mean()
+
+>>>
+
+95.0
+```
+
+- str 매서드를 호출하면 name이 반환된다.
+
+```python
+str(s_info)
+
+>>>
+
+'name : hong'
+```
+
+- getitem 매서드를 호출하면 특정값이 반환되다.
+    - "math", "english"를 읽을 수 있다.
+
+```python
+s_info["math"]
+
+>>>
+
+90
+
+s_info["english"]
+
+>>>
+
+100
+```
+
+# 파이썬 패키지 사용하기
+
+### 패키지 임포트
+- 패키지 임포트 import : 파이썬 패키지를 사용하도록 설정하는 것
+- 패키지를 사용하려면 해당 패키지를 파이썬에서 사용할 수 있도록 설정하는 명령을 실행해야 한다.
+
+```
+import 패키지이름
+```
+
+- 패키지이름은 일반적으로 패키지를 부르는 이름과 다를 수 있다.
+- 패키지이름이 너무 길면 패키지이름을 짧게 할 수 있다.
+
+```
+import 패키지이름 as 패키지별명
+```
+
+### 패키지 내용 살펴보기
+- **dir** : 임포트된 패키지 안의 내용을 살펴보는 방법
+    - dir(패키지이름 또는 패키지별명)
+- 대부분의 패키지는 하위 패키지가 있는데 상위 패키지를 임포트할 때 자동으로 임포트 되는 것도 있지만, 그렇지 않은 것도 있다.
+- 직접 임포트 해줘야 한다.
+
+- 사이킷런 패키지 임포트하고 dir()로 패키지 내용 확인
+    - 여러가지 스페셜 매서드와 속성값(멤버변수)들이 나온다.
+
+```python
+import sklearn as sk
+
+# 패키지의 내용을 보여준다.
+dir(sk)
+
+>>>
+
+['__SKLEARN_SETUP__',
+ '__all__',
+ '__builtins__',
+ '__cached__',
+ '__check_build',
+ '__doc__',
+ '__file__',
+ '__loader__',
+ '__name__',
+ '__package__',
+ '__path__',
+ '__spec__',
+ '__version__',
+ '_config',
+ '_distributor_init',
+ 'base',
+ 'clone',
+ 'config_context',
+ 'exceptions',
+ 'externals',
+ 'get_config',
+ 'logger',
+ 'logging',
+ 'os',
+ 'random',
+ 'set_config',
+ 'setup_module',
+ 'show_versions',
+ 'sys',
+ 'utils']
+```
+
+- 사이키런 패키지의 preprocessing 서브패키지 임포트
+    - 클래스, 매서드, 속성값들 반환
+
+```python
+import sklearn.preprocessing
+
+dir(sklearn.preprocessing)
+
+>>>
+
+['Binarizer',
+ 'FunctionTransformer',
+ 'KBinsDiscretizer',
+ 'KernelCenterer',
+ 'LabelBinarizer',
+ 'LabelEncoder',
+ 'MaxAbsScaler',
+ 'MinMaxScaler',
+ 'MultiLabelBinarizer',
+ 'Normalizer',
+ 'OneHotEncoder',
+ 'OrdinalEncoder',
+ 'PolynomialFeatures',
+ 'PowerTransformer',
+ 'QuantileTransformer',
+ 'RobustScaler',
+ 'SplineTransformer',
+ 'StandardScaler',
+ '__all__',
+ '__builtins__',
+ '__cached__',
+ '__doc__',
+ '__file__',
+ '__loader__',
+ '__name__',
+ '__package__',
+ '__path__',
+ '__spec__',
+ '_csr_polynomial_expansion',
+ '_data',
+ '_discretization',
+ '_encoders',
+ '_function_transformer',
+ '_label',
+ '_polynomial',
+ 'add_dummy_feature',
+ 'binarize',
+ 'label_binarize',
+ 'maxabs_scale',
+ 'minmax_scale',
+ 'normalize',
+ 'power_transform',
+ 'quantile_transform',
+ 'robust_scale',
+ 'scale']
+```
+
+### 패키지에 포함된 함수(매서드) 등을 사용하기
+- 패키지에 포함된 함수 등을 사용방법
+    - 패키지이름.(함수이름)
+    - 패키지별명.(함수이름)
+
+```python
+import numpy as np
+
+np.arange(10)
+
+>>>
+
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+### 선택적 임포트
+- 패키지 임포트시 특정한 명령어들만 선택적으로 임포트할 수도 있다.
+```
+from 패키지이름 import 명령어
+from 패키지이름 import 명령어1, 명령어2, 명령어3
+```
+- 패키지를 선택적으로 임포트한 경우 패키지이름과 마침표 없이 바로사용 가능
+- `와일드 임포트 wild import` : 선택적 임포트를 할 때 명령어 이름 대신 `*`기호를 사용하면 패키지안의 모든 명령 임포트 할 수 있다.
+- 와일드 임포트시 기존의 변수나 함수를 덮어 쓸 때가 있으므로 주의해서 실행해야한다.
+
+```python
+from numpy import arange
+
+arange(10)
+
+>>>
+
+array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+```
+
+#### 동일한 이름의 함수에 새로 임포트한 패키지의 동일한 명령어가 덮어 씌어진다.
+- 즉 와일트 임포트는 주의해서 사용해야 한다.
+- 중복되는 이름의 다른 함수가 영향을 받을 수 있다.
+
+```python
+def f() :
+     print("I am f function")
+
+f()
+
+>>>
+
+I am f function
+```
+
+- 사이파이의 stats 서브패키지의 명령어를 와일드 임포트하면
+- f분포 명령어가 임포트되어 f() 함수에 덮어씌워져 실행이 안된다.
+
+```
+from scipy.stats import *
+
+f()
+
+>>>
+
+...
+
+TypeError: _parse_args() missing 2 required positional arguments: 'dfn' and 'dfd'
+```
+
+# 파이썬의 자료형
+
+### 자료형
+- 프로그램이 실행되려면 컴퓨터는 각 변수에 어떤 종류의 값이 들어가 있는지 알아야 한다.
+    - 숫자, 문자열, 리스트, 튜플, 딕셔너리, 함수, 클래스 등...
+- 값이 어떤 유형이냐에 따라서 저장하는 방식이나 계산하는 방법이 다르기때문이다.
+    - `자료형 data type, 타입 type` : 값의 종류
+- 정수 1과 문자열 "1"의 메모리를 확인하면 차이가 난다. 즉 저장하는 방식이 다르기 때문이다.
+- `변수의 메모리 크기 확인 : sys 패키지의 getsizeof 명령 사용`
+
+### 파이썬의 자료형
+- 변수나 값의 자료형을 확인하는 방법 : type(변수이름)
+    - NoneType
+    - bool
+    - int
+    - float
+    - complex
+    - str
+    - tuple
+    - list
+    - dict
+    - function
+
+- getsizeof 명령어 임포트
+    - 각 자료형별로 메모리 크기가 다르다.
+
+```python
+from sys import getsizeof
+
+a = 1
+getsizeof(a)
+
+>>>
+
+28
+
+b = "1"
+getsizeof(b)
+
+>>>
+
+50
+
+c = 88833399283018
+getsizeof(c)
+
+>>>
+
+32
+
+d = "88833399283018"
+getsizeof(d)
+
+>>>
+
+63
+```
+
+#### 복소수 사용할 때는 뒤에 j를 붙인다.
+
+```python
+type(2  + 3j)
+
+>>>
+
+complex
+```
+
+#### 함수도 function이라는 자료형에 속한다.
+
+```python
+def f() :
+    return 1
+
+type(f)
+
+>>>
+
+function
+```
+
+### 자료형과 클래스
+- 파이썬에서는 자료형과 클래스는 같은 의미로 생각할 수 있다.
+- 즉 자료형도 클래스이다.
+- 클래스를 알고 싶으면 `__class__` 속성을 확인
+
+```python
+a = 1
+type(a)
+
+>>>
+
+int
+
+a.__class__
+
+>>>
+
+int
+
+b = [1, 2, 3]
+type(b)
+
+>>>
+
+list
+
+b.__class__
+
+>>>
+
+list
+```
+
+#### `__main__`
+- 클래스 앞에 붙은 `__main__` 은 클래스가 정의 된 모듈을 의미한다.
+- 파일의 이름이다.
+- REPL 환경에서 입력하는 코드는 `__main__` 으로 가정한다.
+
+```python
+class C(object) :
+    pass
+
+c = C()
+type(c)
+
+>>>
+
+__main__.C
+```
+
+### 연습문제
+- 오늘 날짜를 나타내는 문자열과 생일을 나타내는 문자열이 다음과 같을 때 만 나이를 구하시오.
+- today = "2020-10-25"
+- birthday = "2020-11-21"
+
+```python
+today = "2020-10-25"
+type(today)
+
+>>>
+
+str
+
+birthday = "2020-11-21"
+type(birthday)
+
+>>>
+
+str
+
+# 날짜를 정수로 자료형 변환하여 일수를 계산
+today_t = today.replace("-", "")
+birthday_t = birthday.replace("-", "")
+
+int(today_t) - int(birthday_t)
+
+>>>
+
+-96
+```
+
+### 불변형 자료형과 변형 자료형
+- 자료형의 두 가지 종류
+    - 불변형 immutable : 정수, 실수, 문자열, 튜플 
+    - 변형 mutable : 리스트, 딕셔너리
+- 불변형 자료형은 변환할 때 메모리에 저장된 데이터 전체를 모두 없애고 새로 만들어진다.
+- 변형 자료형은 할당된 메모리를 그냥 놔두고 메모리에 씌여있는 내용=값만 바꾼다.
+
+#### x라는 변수에 정수를 입력하는 경우 (불변형 자료형의 변형)
+- 이름 공간 (name space)에 x라는 변수 이름이 생긴다.
+- 메모리의 특정 위치에 1이라는 값이 씌여진다.
+- 씌여진 메모리 위치 주소를 알려면 `*id*` 명령을 사용한다.
+    - 이름공간에 x라는 변수로 공간이 생기고 이것에 1을 할당하면 메모리 주소값이 부여된다.
+- 변수 x의 값을 2로 바꾸면 메모리상의 해당 위치의 값이 바뀌는 것이 아니라 메모리의 다른 위치에 2가 씌여지고 이름공간의 x는 새로운 위치를 가리키게 된다. 
+    - 즉 새로운 주소에 바뀐 값이 입력된다. 위치공간의 x는 새로운 주소를 가리킨다.
+
+#### x라는 변수에 리스트를 입력하는 경우 (변형 자료형의 변형)
+- 변수 x는 리스트 자료형을 가리키고(해당 메모리의 주소), 이 리스트 자료형은 원소인 불변형 자료형인 정수 1을 가리킨다.
+- 리스트의 원소를 다른값을 바꾸면, 리스트의 위치는 변하지 않지만 바꾼 자리의 원소의 값의 위치가 바뀐다.
+
+#### x라는 변수에 튜플을 입력하는 경우 (불변형 자료형)
+- 원소가 가리키는 내용만 바꿀 수 없다.
+
+```python
+x = 1
+x
+
+>>>
+
+1
+
+# 값 1에 씌여진 메모리의 위치 주소 확인
+# 변수 x는 이름공간에 들어가있고, 이 이름공간이 값 1의 메모리주소를 가리키게 되는 방식.
+id(x)
+
+>>>
+
+140719686787488
+
+x = 2
+x
+
+>>>
+
+x
+
+# 값 2에 씌어진 메모리의 위치 주소를 x의 이름공간이 가리키게 된다.
+id(x)
+
+>>>
+
+140719686787520
+```
+
+#### 튜플의 내용은 바꿀 수 없다.
+- 바꾸려면 기존의 튜플을 사제하고 다시 만들어야 한다.
+- 즉 이름공간과 직접 연결된 자료형의 위치 주소를 아예 새로 만들어야 한다.
+- 불변형 자료형의 특징이다.
+
+```python
+x = (1, )
+x
+
+>>>
+
+(1,)
+
+x[0] = 2
+
+>>>
+
+TypeError: 'tuple' object does not support item assignment
+```
+
+# 파이썬에서 날짜와 시간 다루기
+
+### 날짜와 시간 데이터
+- 날짜와 시간은 파이썬에서 제공하는 자료형은 아니다.
+- 데이터 분석에서 사용되는 중요한 자료형이므로 패키지를 사용해서 다룬다.
+
+### datetime 패키지
+- `datetime 클래스` : 날짜와 시간을 함께 저장하는 클래스
+- datetime 클래스를 생성한 시점의 시간이 저장된다. 아래 메서드와 속성들은 이 저장된 시간을 반영한다.
+    - 패키지 이름과 같으므로 사용 주의해야 한다.
+    - 클래스 이름이 대문자로 시작하지 않는다.
+    - 객체를 생성하지 않고도 바로 클래스에서 사용할 수 있는 클래스 메서드를 제공한다.
+    - 메서드 :
+        - now() : 현재 시각 출력
+        - weekday() : 요일 반환 (0 : 월, 1 : 화 ~ 6 : 일)
+        - strftime : 문자열 반환, 어떤 형식으로 문자열을 만들지 형식 문자열을 인수로 받는다.
+        - date : 날짜 정보만 가지는 date 클래스 객체 반환
+        - tiem : 시간 정보만 가지는 time 클래스 객체 반환
+    - 속성 :
+        - year 연도
+        - month 월
+        - day 일
+        - hour 시
+        - minute 분
+        - second 초
+        - microsecond 마이크로 초(백만분의 일초)
+- `date 클래스` : 날짜만 저장하는 클래스
+- `time 클래스` : 시간만 저장하는 클래스
+- `timedalta 클래스` : 시간 구간 정보를 저장하는 클래스
+
+#### datetime 패키지 임포트
+
+```python
+import datetime as dt
+```
+
+#### datetime 패키지의 datetime 클래스 객체 만들기
+- 여러가지 클래스 메서드들
+- 현재 시점의 datetime을 반환해 준다.
+
+```python
+x = dt.datetime.now()
+x
+
+>>>
+
+datetime.datetime(2022, 3, 7, 17, 57, 17, 791445)
+```
+
+- weekday() 매서드를 호출하면 datetime의 요일을 숫자로 반환한다.
+- 0 : 월요일, 1 : 화요일 ...
+
+```python
+x.weekday() 
+
+>>>
+
+0
+```
+
+#### strftime() 클래스 메서드는 형식 문자열을 인수로 갖는다.
+- 이 밖에도 여러가지 형식 문자열을 지정 할 수 있다.
+- https://docs.python.org/3.8/library/datetime.html#strftime-and-strptime-format-codes
+- %Y : 앞의 빈자리를 0으로 채우는 **4자리 연도 숫자**
+- %m : 앞의 빈자리를 0으로 채우는 **2자리 월 숫자**
+- %d : 앞의 빈자리를 0으로 채우는 **2자리 일 숫자**
+- %H : 앞의 빈자리를 0으로 채우는 **24시간 형식 2자리 시간 숫자**
+- %M : 앞의 빈자리를 0으로 채우는 **2자리 분 숫자**
+- %S : 앞의 빈자리를 0으로 채우는 **2자리 초 숫자**
+- %A : 영어로 된 **요일 문자열**
+- %B : 영어로 된 **월 문자열**
+
+```python
+# 영어로 된 요일, 두자리 월 숫자, 영어로 된 월, 4자리 연도 숫자
+
+x.strftime("%A %d. %B %Y")
+
+>>>
+
+'Monday 07. March 2022'
+
+x.strftime("%Y-%m-%d")
+
+>>>
+
+'2022-03-07'
+
+x.strftime("%H %M %S")
+
+>>>
+
+'17 57 17'
+
+x.strftime("%A %m %d %H %M %S %A %B")
+
+>>>
+
+'Monday 03 07 17 57 17 Monday March'
+
+x.date() # 날짜 정보만 갖는 클래스 객체 반환
+
+>>>
+
+datetime.date(2022, 3, 7)
+
+x.time() # 시간 정보만 갖는 클래스 객체 반환
+
+>>>
+
+datetime.time(17, 57, 17, 791445)
+```
+
+#### datetime 클래스의 여러가지 속성들 호출
+
+```python
+x.year, x.month, x.day, x.hour, x.minute, x.second, x.microsecond
+
+>>>
+
+(2022, 3, 7, 17, 57, 17, 791445)
+```
+
+#### 문자열을 입력받아서 datetime 클래스로 반환하는 클래스 메서드
+- strptime(날짜와 시간정보를 갖는 문자열, 형식문자열)
+    - 내가 입력한 date 문자열을 형식문자열의 형태대로 반환 해준다.
+
+```python
+new_dt = dt.datetime.strptime("2022-03-07 18:23", "%Y-%m-%d %H:%M")
+new_dt
+
+>>>
+
+datetime.datetime(2022, 3, 7, 18, 23)
+```
+
+### 연습문제
+- strftime 메서드를 사용하여 자신의 생일을 "xxxx년 xx월 xx일 x요일"과 같은 형식으로 출력 해보자
+
+```python
+my_birthday = dt.datetime.strptime("1986-03-30", "%Y-%m-%d")
+my_birthday
+
+>>>
+
+datetime.datetime(1986, 3, 30, 0, 0)
+```
+
+```python
+print("{}년 {}월 {}일 {}".format(my_birthday.strftime("%Y"), \
+                              my_birthday.strftime("%m"), \
+                              my_birthday.strftime("%d"), \
+                              my_birthday.strftime("%A")))
+
+>>>
+
+1986년 03월 30일 Sunday
+```
+
+### 연습문제
+- 자신의 생일을 나타내는 datetime 클래스 객체를 만들고 오늘 자신의 만 나이를 구하라
+
+```python
+today = dt.datetime.now()
+today
+
+>>>
+
+datetime.datetime(2022, 3, 7, 19, 5, 41, 47628)
+
+# date 형식변환
+today = today.strftime("%Y%m%d")
+today
+
+>>>
+
+'20220307'
+
+# str을 int로 자료형 변환
+today = int(today)
+today
+
+>>>
+
+20220307
+
+# 내 생일 객체를 만들고 int로 자료형 변환
+bday = dt.datetime.strptime("19860330", "%Y%m%d").strftime("%Y%m%d")
+bday = int(bday)
+
+>>>
+
+19860330
+
+# today - bday
+round(today - bday, -2) / 10000
+
+>>>
+
+36.0
+```
+
+### dateutill 패키지
+- dateutill 패키지의 **parse** 함수를 쓰면, 문자열을 자동으로 형식 문자열에 맞춰서 변환해준다.
+- 월과 일이 모두 12보다 작은 경우 먼저나오는 숫자를 월, 나중에 나오는 숫자를 일로 판단한다.
+
+```python
+from dateutil.parser import parse
+
+parse('1986-03-30')
+
+>>>
+
+datetime.datetime(1986, 3, 30, 0, 0)
+
+parse('Mar 07, 2022 07:11:30 PM')
+
+>>>
+
+datetime.datetime(2022, 3, 7, 19, 11, 30)
+
+parse("5/5/2022")
+
+>>>
+
+datetime.datetime(2022, 5, 5, 0, 0)
+```
+
+### 날짜/시간 연산
+- 날짜, 시간의 간격을 구할 때는 두 개의 datetime 클래스 객체의 차이를 구한다.
+- 이 결과는 `timedlta 클래스` 객체로 반환된다.
+- 속성 
+    - days : 일수
+    - seconds : 초
+    - microseconds : 마이크로초
+- 메서드
+    - total_seconds : 모든 속성을 초단위로 모아서 반환
+- 데이트 타임 + 타임델터 연산으로 새로운 datetime을 구할 수 있다.
+    - 2022-03-07 + 165일, 3600초 = ?
+
+```python
+dt1 = dt.datetime(2022, 3, 7, 22)
+dt2 = dt.datetime(2022, 1, 1, 12)
+td = dt1 - dt2
+td
+
+>>>
+
+datetime.timedelta(days=65, seconds=36000)
+
+td.days
+
+>>>
+
+65
+
+td.seconds
+
+>>>
+
+36000
+
+td.total_seconds()
+
+>>>
+
+5652000.0
+```
+
+#### datetime + timedelta
+- 현재 날짜 기준으로 x일을 더한 날짜를 계산할 수 있다.
+- timedelta() 클래스를 사용
+
+```python
+t0 = dt.datetime(2022, 3, 7, 19)
+d = dt.timedelta(days=165, seconds=2000)
+
+# 현재 날짜와 165일 2000초를 더해준다.
+t0 + d
+
+datetime.datetime(2022, 8, 19, 19, 33, 20)
+```
+
+### 연습문제
+- 자신의 내년 생일까지 남은 날 수 계산하기
+- 자신의 내년 생일까지 남은 시간을 분 단위로 계산하기
+
+```python
+t_day = dt.datetime(2022, 3, 7, 19)
+next_bday = dt.datetime(2023, 3, 30, 0)
+
+interval = next_bday - t_day
+interval
+
+>>>
+
+datetime.timedelta(days=387, seconds=18000)
+
+print("내년 생일까지 남은 일수 : {}일".format(interval.days))
+print("내년 생일까지 남은 시간 : {}분".format(interval.seconds / 60))
+
+>>>
+
+내년 생일까지 남은 일수 : 387일
+내년 생일까지 남은 시간 : 300.0분
+```
+
+### 월단위 계산 : dateutil 패키지의 relativedelta 클래스
+- timedelta 클래스는 날짜, 시간, 초 단위로 연산을 할 수 있다.
+- relativedelta 클래스는 월 단위의 연산을 해준다.
+
+```python
+from dateutil.relativedelta import relativedelta
+
+t_day + relativedelta(months=6)
+
+>>>
+
+datetime.datetime(2022, 9, 7, 19, 0)
+```
+
+### 연습문제
+- relativedelta 클래스를 사용하여 2000년이 윤년인지 확인하라
+- 2000년 2월의 마지막 날로부터 1년 후의 날짜를 계산하라.
+
+#### 2000/01/31 + 1month = ?
+- 2000년 1월 31일 + 한달을 계산 했을 때 2월 마지막 날의 날짜를 확인하여 윤년인지 알 수 있다.
+
+```python
+# 2000년 1월 31일 날짜 객체 생성
+t1 = parse("20000131")
+t1
+
+>>>
+
+datetime.datetime(2000, 1, 31, 0, 0)
+
+# 윤년인지 확인하기 위해 t1에 월단위 계산 클래스로 1달을 더해준다.
+# 29일이므로 윤년이다.
+t2 = t1 + relativedelta(months=1)
+t2
+
+>>>
+
+datetime.datetime(2000, 2, 29, 0, 0)
+
+# 일단위 계산 클래스  timedelta(days=365) 를 사용하여 1년 후의 날짜를 계산할 수 있다.
+# 윤년의 다음해의 2월은 28일이 마지막 날짜이다.
+t2_365 = t2 + dt.timedelta(days=365)
+t2_365
+
+>>>
+
+datetime.datetime(2001, 2, 28, 0, 0)
+```
